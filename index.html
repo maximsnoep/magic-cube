@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>magic-cube</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>magic-cube</h1>
+        
+        <div class="layout-wrapper">
+            <div class="controls-panel">
+                <label for="layoutSelect">Configuration:</label>
+                <select id="layoutSelect">
+                    <option value="layout1">conf 1</option>
+                    <option value="layout2">conf 2</option>
+                    <option value="layout3">conf 3</option>
+                    <option value="layout4">conf 4</option>
+                    <option value="layout5">conf 5</option>
+                    <option value="layout6">conf 6</option>
+                </select>
+
+                <div id="controls" class="controls"></div>
+            </div>
+
+            <div id="grid" class="grid"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
