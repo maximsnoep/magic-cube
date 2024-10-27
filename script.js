@@ -78,12 +78,15 @@ const uniqueIds = [...new Set(
         .map(cell => cell[0])
 )].sort();
 
+// Store images associated with each ID
+const imagesMap = {};
+
 // References to HTML elements
 const gridElement = document.getElementById('grid');
 const controlsElement = document.getElementById('controls');
 const layoutSelect = document.getElementById('layoutSelect');
 
-// Function to render the selected grid layout with rotation
+// Function to render the selected grid layout with rotation and images
 function renderGrid(layout) {
     gridElement.innerHTML = '';
     gridElement.style.gridTemplateColumns = `repeat(${layout[0].length}, 50px)`;
@@ -92,24 +95,45 @@ function renderGrid(layout) {
         row.forEach(cell => {
             const cellDiv = document.createElement('div');
             cellDiv.classList.add('grid-cell');
-            
+
             if (cell[0] && cell[0].trim() !== "") {
                 cellDiv.dataset.id = cell[0];
+
+                // Check if there's an image associated with this ID
+                if (imagesMap[cell[0]]) {
+                    cellDiv.style.backgroundImage = `url(${imagesMap[cell[0]]})`;
+                    cellDiv.style.backgroundSize = 'cover';
+                    cellDiv.style.backgroundPosition = 'center';
+                }
+
                 cellDiv.innerText = cell[0];
                 cellDiv.style.transform = `rotate(${cell[1] * 90}deg)`; // Apply rotation
             } else {
                 cellDiv.classList.add('empty');
             }
-            
+
             gridElement.appendChild(cellDiv);
         });
     });
 }
 
-// Function to create text boxes for each unique ID
+// Function to handle image upload
+function handleImageUpload(event, id) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            imagesMap[id] = e.target.result; // Store image as Base64
+            renderGrid(layouts[layoutSelect.value]); // Re-render the grid
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+// Function to create text boxes and file inputs for each unique ID
 function createTextControls() {
     controlsElement.innerHTML = '';
-    
+
     uniqueIds.forEach(id => {
         const controlDiv = document.createElement('div');
         controlDiv.classList.add('control');
@@ -133,8 +157,16 @@ function createTextControls() {
             });
         });
 
+        // File input for image upload
+        const imageInput = document.createElement('input');
+        imageInput.type = 'file';
+        imageInput.accept = 'image/*';
+        imageInput.classList.add('image-input');
+        imageInput.addEventListener('change', (event) => handleImageUpload(event, id));
+
         controlDiv.appendChild(label);
         controlDiv.appendChild(input);
+        controlDiv.appendChild(imageInput);
         controlsElement.appendChild(controlDiv);
     });
 }

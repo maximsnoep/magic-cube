@@ -72,11 +72,19 @@ body {
     align-items: center;
     font-size: 16px;
     border: 1px solid #ccc;
-    background-color: #e0e0e0;
+    background-color: #e0e0e083;
     transition: transform 0.3s ease; /* Smooth rotation transition */
+    background-blend-mode: overlay;  /* Blend mode to keep text readable */
+    color: rgb(0, 0, 0); /* Ensure text is visible over images */
+    font-weight: bold;
 }
 
 .grid-cell.empty {
     background-color: transparent;
     border: none;
+}
+
+.image-input {
+    margin-top: 10px;
+    width: 100%;
 }
