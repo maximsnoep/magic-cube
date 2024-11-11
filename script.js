@@ -130,6 +130,19 @@ function handleImageUpload(event, id) {
     }
 }
 
+function updateText() {
+    const textInputs = document.querySelectorAll(`.text-input`);
+    for (const textInput of textInputs) {
+        const id = textInput.id;
+        const cells = document.querySelectorAll(`[data-id="${id}"]`);
+        if (textInput.value != "") {
+            cells.forEach(cell => {
+                cell.innerText = textInput.value;
+            });
+        }
+    }
+}
+
 // Function to create text boxes and file inputs for each unique ID
 function createTextControls() {
     controlsElement.innerHTML = '';
@@ -175,6 +188,7 @@ function createTextControls() {
 layoutSelect.addEventListener('change', () => {
     const selectedLayout = layoutSelect.value;
     renderGrid(layouts[selectedLayout]);
+    updateText();
 });
 
 // Initial setup
